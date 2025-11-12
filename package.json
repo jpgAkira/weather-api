@@ -18,6 +18,8 @@
     "build": "tsc",
     "start": "npm run build && node dist/src/index.js",
     "dev": "tsx watch src/index.ts",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
     "lint": "eslint ./src ./test --ext .ts",
     "lint:fix": "eslint ./src ./test --ext .ts --fix",
     "style:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",

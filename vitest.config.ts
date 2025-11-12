@@ -9,7 +9,7 @@ export default defineConfig({
     fileParallelism: false,
     setupFiles: ["vitest.setup.ts"],
     globalSetup: ["vitest.global.setup.ts"],
-    include: ["src/**/*.{spec,test}.{ts}"],
+    include: ["src/**/__test__/**/*.{test,spec}.{ts,tsx,js,jsx}"],
     testTimeout: 10000,
     coverage: {
       reportsDirectory: "./coverage",

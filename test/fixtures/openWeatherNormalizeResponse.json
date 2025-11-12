@@ -1,0 +1,18 @@
+{
+  "forecast": {
+    "infos": {
+      "main": "Clouds",
+      "description": "algumas nuvens",
+      "temperature": {
+        "degrees": "metric",
+        "temp": 10.42,
+        "temp_min": 9.23,
+        "temp_max": 11.16,
+        "thermal_sensation": 9.95
+      },
+      "wind_speed": 11.268,
+      "humidity": 93,
+      "visibility": 10000
+    }
+  }
+}
