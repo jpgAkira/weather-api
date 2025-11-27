@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.0.1",
   "engineVersion": "f09f2815f091dbba658cdcd2264306d88bb5bda6",
   "activeProvider": "sqlite",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel City {\n  id        String   @id @default(uuid())\n  name      String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  userId    String\n  user      User     @relation(fields: [userId], references: [id])\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  email     String   @unique\n  name      String\n  password  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  citys     City[]\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel City {\n  id        String   @id @default(uuid())\n  name      String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  userId    String\n  user      User     @relation(fields: [userId], references: [id])\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  email     String   @unique\n  name      String\n  password  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  citys     City[]\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
