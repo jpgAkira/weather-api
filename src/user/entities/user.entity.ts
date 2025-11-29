@@ -1,4 +1,4 @@
-import { Prisma } from 'src/generated/prisma/client.js';
+import { Prisma } from '../../generated/prisma/client.js';
 
 export class User implements Prisma.UserCreateInput {
   id: string;
