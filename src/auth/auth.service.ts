@@ -23,4 +23,8 @@ export class AuthService {
   public async createToken(id: string): Promise<string> {
     return await this.jwtService.signAsync({ id });
   }
+
+  public async verifyToken(token: string): Promise<{ id: string }> {
+    return await this.jwtService.verifyAsync(token);
+  }
 }
