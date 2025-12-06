@@ -5,15 +5,17 @@ const esmPreset = createDefaultEsmPreset();
 
 const config: Config = {
   ...esmPreset,
-  moduleFileExtensions: ['js', 'json', 'ts'],
+
   rootDir: 'src',
+  moduleFileExtensions: ['ts', 'json', 'js'],
   testRegex: '.*\\.spec\\.ts$',
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '^(.+)\\.js$': '$1',
+    '^(\\.{1,2}/.*)\\.js$': '$1',
   },
+  extensionsToTreatAsEsm: ['.ts'],
 };
 
 export default config;
