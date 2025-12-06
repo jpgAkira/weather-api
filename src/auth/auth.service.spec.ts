@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service.js';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 
 describe('AuthService', () => {
   let authService: AuthService;
-  let jwtService: JwtService;
   const defaultPassword = 'test';
+  const userId = '82ebda84-0060-417a-8234-e4554161dd67';
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -20,11 +20,6 @@ describe('AuthService', () => {
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
-    jwtService = module.get<JwtService>(JwtService);
-  });
-
-  it('should be defined', () => {
-    expect(authService).toBeDefined();
   });
 
   it('should create a password with encryption', async () => {
@@ -45,10 +40,16 @@ describe('AuthService', () => {
   });
 
   it('should create a jwt token for user id', async () => {
-    const userId = '82ebda84-0060-417a-8234-e4554161dd67';
-
-    const token = await jwtService.signAsync({ id: userId });
+    const token = await authService.createToken(userId);
 
     expect(typeof token).toBe('string');
+  });
+
+  it('should verify token and return a user id', async () => {
+    const token = await authService.createToken(userId);
+
+    const verify = await authService.verifyToken(token);
+
+    expect(verify.id).toEqual(userId);
   });
 });
