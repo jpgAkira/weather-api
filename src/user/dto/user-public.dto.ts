@@ -5,5 +5,4 @@ export class UserPublicDto {
   name: string;
   email?: string;
   citys?: CityCreateNestedManyWithoutUserInput;
-  token?: string;
 }

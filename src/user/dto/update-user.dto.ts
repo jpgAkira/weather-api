@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { IsOptional, IsString, Length, Matches } from 'class-validator';
 import { CreateUserDto } from './create-user.dto.js';
 
@@ -16,4 +15,13 @@ export class UpdateUserDto implements Omit<CreateUserDto, 'email'> {
       'A senha deve conter pelo menos: 1 letra maiúscula, 1 letra minúscula, 1 número ou caractere especial.',
   })
   password: string;
+}
+
+export class UpdateUserResponseDto {
+  message: string;
+  user: {
+    id: string;
+    name: string;
+    email?: string;
+  };
 }
