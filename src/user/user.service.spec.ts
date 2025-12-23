@@ -178,7 +178,7 @@ describe('User Service Unit spec', () => {
       expect(loginUser).toEqual({ token });
     });
 
-    it('should return a error  if the user informe incorrect data', async () => {
+    it('should return a error if the user informe incorrect data', async () => {
       const loginDto = { email: 'akira@email.com', password: 'akira123' };
 
       const fakeResult = {

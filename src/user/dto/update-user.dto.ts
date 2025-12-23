@@ -1,11 +1,10 @@
 import { IsOptional, IsString, Length, Matches } from 'class-validator';
-import { CreateUserDto } from './create-user.dto.js';
 
-export class UpdateUserDto implements Omit<CreateUserDto, 'email'> {
+export class UpdateUserDto {
   @IsOptional()
   @IsString({ message: 'Informe um nome válido.' })
   @Length(3, 16, { message: 'O nome deve conter entre 3 a 16 caracteres.' })
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString({ message: 'Informe uma senha válida.' })
@@ -14,7 +13,7 @@ export class UpdateUserDto implements Omit<CreateUserDto, 'email'> {
     message:
       'A senha deve conter pelo menos: 1 letra maiúscula, 1 letra minúscula, 1 número ou caractere especial.',
   })
-  password: string;
+  password?: string;
 }
 
 export class UpdateUserResponseDto {

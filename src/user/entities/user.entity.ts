@@ -1,11 +1,11 @@
-import { Prisma } from '../../generated/prisma/client.js';
+import { City } from '../../city/entities/city.entity.js';
 
-export class User implements Prisma.UserCreateInput {
+export class User {
   id: string;
   email: string;
   name: string;
   password: string;
   createdAt: string | Date;
   updatedAt: string | Date;
-  citys: Prisma.CityCreateNestedManyWithoutUserInput;
+  citys: City[];
 }

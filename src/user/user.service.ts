@@ -1,10 +1,4 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto, UpdateUserResponseDto } from './dto/update-user.dto.js';
 import { PrismaService } from '../prisma/prisma.service.js';
@@ -12,9 +6,8 @@ import { UserPublicDto } from './dto/user-public.dto.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
 import { AuthResponseDto } from './dto/auth-user.dto.js';
 import { AuthService } from '../auth/auth.service.js';
-import { Prisma } from '../generated/prisma/client.js';
-import { PrismaErrorCode } from '../prisma/prisma.types.js';
 import { deleteUserResponseDto as DeleteUserResponseDto } from './dto/delete-user.dto.js';
+import { ServiceErrorValidation } from '../utils/error/serviceErrorsValidation.js';
 
 @Injectable()
 export class UserService {
@@ -43,21 +36,8 @@ export class UserService {
       const token = await this.authService.createToken(newUser.id);
 
       return { token };
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === PrismaErrorCode.UNIQUE_CONSTRAINT) {
-          throw new BadRequestException('O e-mail informado já está em uso');
-        }
-
-        if (error.code === PrismaErrorCode.REQUIRED_PATH) {
-          throw new BadRequestException(
-            'Por favor informe todos os campos obrigatórios',
-          );
-        }
-      }
-      throw new InternalServerErrorException(
-        'Ocorreu um erro inesperado, por favor tente novamente mais tarde',
-      );
+    } catch (error: unknown) {
+      return ServiceErrorValidation.tratament(error);
     }
   }
 
@@ -81,14 +61,14 @@ export class UserService {
           user.password,
         ))
       ) {
-        throw new Error('Verifique seus dados e tente novamente.');
+        throw new Error('Confira seus dados e tente novamente');
       }
 
       const token = await this.authService.createToken(user.id);
 
       return { token };
-    } catch (error) {
-      throw new UnauthorizedException((error as Error).message);
+    } catch (error: unknown) {
+      throw new UnauthorizedException(error);
     }
   }
 
@@ -109,7 +89,7 @@ export class UserService {
 
       return user;
     } catch (error) {
-      throw new UnauthorizedException(error);
+      ServiceErrorValidation.tratament(error);
     }
   }
 
@@ -137,15 +117,8 @@ export class UserService {
       });
 
       return { user: updatedUser, message: 'Atualizado com sucesso.' };
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === PrismaErrorCode.MISSING_ID) {
-          throw new UnauthorizedException('Informe um id válido.');
-        }
-      }
-      throw new InternalServerErrorException(
-        'Ocorreu um erro inesperado, por favor tente novamente mais tarde',
-      );
+    } catch (error: unknown) {
+      ServiceErrorValidation.tratament(error);
     }
   }
 
@@ -154,8 +127,8 @@ export class UserService {
       await this.db.user.delete({ where: { id } });
 
       return { message: 'Usuário deletado com sucesso.', userId: id };
-    } catch {
-      throw new UnauthorizedException('Informe um id válido.');
+    } catch (error) {
+      ServiceErrorValidation.tratament(error);
     }
   }
 }
