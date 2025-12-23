@@ -6,7 +6,7 @@ import { AuthModule } from '../auth/auth.module.js';
 import { OpenWeatherModule } from '../client/openWeather.module.js';
 
 @Module({
-  imports: [PrismaModule, AuthModule, OpenWeatherModule],
+  imports: [OpenWeatherModule, PrismaModule, AuthModule],
   controllers: [CityController],
   providers: [CityService],
 })
