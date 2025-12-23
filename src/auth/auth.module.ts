@@ -7,9 +7,8 @@ import { AuthGuard } from './auth.guard.js';
   imports: [
     JwtModule.register({
       global: true,
-      //Voltar aqui
-      secret: 'akira',
-      signOptions: { expiresIn: '60s' },
+      secret: `${process.env.SECRET_KEY}`,
+      signOptions: { expiresIn: '3600s' },
     }),
   ],
   providers: [AuthService, AuthGuard],
