@@ -3,5 +3,6 @@ import { OpenWeatherService } from './openWeather.js';
 
 @Module({
   providers: [OpenWeatherService],
+  exports: [OpenWeatherService],
 })
 export class OpenWeatherModule {}

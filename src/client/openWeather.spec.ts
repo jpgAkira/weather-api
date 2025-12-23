@@ -9,6 +9,11 @@ import {
   OpenWeatherOptionsDto,
   unitsParams,
 } from './dto/weather-params.dto.js';
+import { AxiosError } from 'axios';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 
 jest.mock('../utils/request');
 
@@ -40,7 +45,7 @@ describe('OpenWeatherService', () => {
       new FakeAxiosError({
         status: 404,
         data: { message: 'city not found' },
-      }),
+      }) as AxiosError,
     );
 
     jest
@@ -55,17 +60,20 @@ describe('OpenWeatherService', () => {
 
     await expect(
       openWeather.fetchCityForecast(invalidCityName, baseOptions),
-    ).rejects.toThrow('city not found');
+    ).rejects.toThrow(NotFoundException);
   });
 
   it('should return a 500 generic error for an unknown error', async () => {
     jest.spyOn(request, 'get').mockRejectedValue('Network Error');
+    jest
+      .spyOn(HTTPUtil.Request, 'isRequestError')
+      .mockImplementation(() => false);
 
     await expect(
       new OpenWeatherService(request).fetchCityForecast(
         defaultCityName,
         baseOptions,
       ),
-    ).rejects.toThrow('Network Error');
+    ).rejects.toThrow(InternalServerErrorException);
   });
 });

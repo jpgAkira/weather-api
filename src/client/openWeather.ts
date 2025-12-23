@@ -1,4 +1,3 @@
-import { BadGatewayException, BadRequestException } from '@nestjs/common';
 import * as HTTPUtil from '../utils/request.js';
 import { LocalTimes, RawWeatherResponse } from './dto/raw-weather.dto.js';
 import {
@@ -8,6 +7,7 @@ import {
   unitsParams,
 } from './dto/weather-params.dto.js';
 import { Weather } from './entities/weather.entity.js';
+import { ServiceErrorValidation } from '../utils/error/serviceErrorsValidation.js';
 
 export class OpenWeatherService {
   private readonly apiKey = process.env.OPEN_WEATHER_KEY;
@@ -31,12 +31,7 @@ export class OpenWeatherService {
 
       return this.normalizeResponse(response.data, options.units);
     } catch (error: unknown) {
-      if (error instanceof Error && HTTPUtil.Request.isRequestError(error)) {
-        const err = HTTPUtil.Request.extractErrorData(error);
-        throw new BadGatewayException(err.data);
-      }
-
-      throw new BadRequestException(JSON.stringify(error));
+      ServiceErrorValidation.tratament(error);
     }
   }
 
