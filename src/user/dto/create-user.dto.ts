@@ -5,6 +5,7 @@ export class CreateUserDto {
   @Length(3, 16, { message: 'O nome deve conter entre 3 a 16 caracteres.' })
   name: string;
 
+  @IsString({ message: 'Informe um email' })
   @IsEmail()
   email: string;
 
