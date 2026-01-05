@@ -5,5 +5,6 @@ export class City {
   name: string;
   createdAt: string | Date;
   updatedAt: string | Date;
-  user: User;
+  user?: User;
+  userId: string;
 }

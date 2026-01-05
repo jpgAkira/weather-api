@@ -1,11 +1,10 @@
-import clientResponses from '../../test/fixtures/openWeatherNormalizeResponse.json' with { type: 'json' };
+import { normalizedOpenWeatherResponse } from '../../test/fixtures/response-example';
 import { Test, TestingModule } from '@nestjs/testing';
 import { jest } from '@jest/globals';
 import { CityService } from './city.service.js';
 import { PrismaModule } from '../prisma/prisma.module.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { OpenWeatherService } from '../client/openWeather.js';
-import { Weather } from '../client/entities/weather.entity.js';
 import { FavoriteCityDbDto } from './dto/favorite-city.dto.js';
 import dotenv from 'dotenv';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
@@ -56,7 +55,7 @@ describe('CityService', () => {
 
     jest
       .spyOn(clientService, 'fetchCityForecast')
-      .mockResolvedValue(clientResponses[0] as Weather);
+      .mockResolvedValue(normalizedOpenWeatherResponse[0]);
 
     jest.spyOn(db.city, 'create').mockResolvedValue(dbResponse);
 
@@ -64,7 +63,7 @@ describe('CityService', () => {
 
     expect(city).toEqual({
       message: 'Cidade adicionada aos favoritos com sucesso',
-      weather: clientResponses[0],
+      weather: normalizedOpenWeatherResponse[0],
     });
   });
 
@@ -131,11 +130,11 @@ describe('CityService', () => {
 
     jest
       .spyOn(clientService, 'fetchCityForecast')
-      .mockResolvedValue(clientResponses[0] as Weather);
+      .mockResolvedValue(normalizedOpenWeatherResponse[0]);
 
     const city = await cityService.findOne('fake-id');
 
-    expect(city).toEqual(clientResponses[0]);
+    expect(city).toEqual(normalizedOpenWeatherResponse[0]);
   });
 
   it('should return an error if a user informed invalid id', async () => {

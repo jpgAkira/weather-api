@@ -1,8 +1,8 @@
-import { CityCreateNestedManyWithoutUserInput } from '../../generated/prisma/models/City.js';
+import { City } from '../../city/entities/city.entity.js';
 
 export class UserPublicDto {
   id: string;
   name: string;
   email?: string;
-  citys?: CityCreateNestedManyWithoutUserInput;
+  citys?: City[];
 }

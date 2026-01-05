@@ -21,6 +21,7 @@ import { LoginUserDto } from './dto/login-user.dto.js';
 import { AuthGuard } from '../auth/auth.guard.js';
 import { AuthResponseDto } from './dto/auth-user.dto.js';
 import { deleteUserResponseDto as DeleteUserResponseDto } from './dto/delete-user.dto.js';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -29,12 +30,14 @@ export class UserController {
 
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
+  @ApiBody({ type: [CreateUserDto] })
   async signup(@Body() createUserDto: CreateUserDto): Promise<AuthResponseDto> {
     return this.userService.create(createUserDto);
   }
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
+  @ApiBody({ type: [LoginUserDto] })
   async signin(@Body() loginUserDto: LoginUserDto): Promise<AuthResponseDto> {
     return this.userService.login(loginUserDto);
   }
@@ -49,6 +52,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   @Patch()
   @HttpCode(HttpStatus.OK)
+  @ApiBody({ type: [UpdateUserDto] })
   async update(
     @Body() updateUserDto: UpdateUserDto,
     @Request() req: ExpressRequest,

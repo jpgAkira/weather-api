@@ -19,6 +19,7 @@ import { AuthGuard } from '../auth/auth.guard.js';
 import type { Request as ExpressRequest } from 'express';
 import { Weather } from '../client/entities/weather.entity.js';
 import { FindAllCityResponseDto } from './dto/find-city.dto.js';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('weather')
 export class CityController {
@@ -27,6 +28,7 @@ export class CityController {
   @Post()
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.CREATED)
+  @ApiBody({ type: FavoriteCityDto })
   async create(
     @Body() { cityName }: FavoriteCityDto,
     @Request() req: ExpressRequest,

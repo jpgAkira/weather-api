@@ -2,11 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import * as dotenv from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
+import initSwagger from './swagger.js';
 
 async function bootstrap() {
   dotenv.config();
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(new ValidationPipe());
+  initSwagger(app);
+
   await app.listen(process.env.PORT ?? 3000);
 }
-await bootstrap();
+
+void bootstrap();
