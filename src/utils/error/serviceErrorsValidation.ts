@@ -34,7 +34,7 @@ export class ServiceErrorValidation {
     }
 
     if (error instanceof Error) {
-      throw new UnauthorizedException(error);
+      throw new UnauthorizedException(error.message);
     }
 
     throw new InternalServerErrorException(
