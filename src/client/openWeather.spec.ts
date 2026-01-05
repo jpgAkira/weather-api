@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
-import openWeatherRawResponse from '../../test/fixtures/openWeatherRawResponse.json' with { type: 'json' };
-import openWeatherNormalizedResponse from '../../test/fixtures/openWeatherNormalizeResponse.json' with { type: 'json' };
+import { rawOpenWeatheResponse } from '../../test/fixtures/response-example';
+import openWeatherNormalizedResponse from '../../test/fixtures/openWeatherNormalizeResponse.json';
 import { OpenWeatherService } from './openWeather.js';
 import * as HTTPUtil from '../utils/request.js';
 import { FakeAxiosError } from '../mocks/createAxiosError.js';
@@ -29,7 +29,7 @@ describe('OpenWeatherService', () => {
   it('should return normalized forecast from OpenWeather service', async () => {
     jest
       .spyOn(request, 'get')
-      .mockResolvedValue({ data: openWeatherRawResponse } as HTTPUtil.Response);
+      .mockResolvedValue({ data: rawOpenWeatheResponse } as HTTPUtil.Response);
 
     const weather = new OpenWeatherService(request);
 
