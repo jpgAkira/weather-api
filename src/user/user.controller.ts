@@ -62,7 +62,7 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Delete()
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
   async remove(@Request() req: ExpressRequest): Promise<DeleteUserResponseDto> {
     return this.userService.remove(req.user.id);
   }
