@@ -1,4 +1,4 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto, UpdateUserResponseDto } from './dto/update-user.dto.js';
 import { PrismaService } from '../prisma/prisma.service.js';
@@ -68,7 +68,7 @@ export class UserService {
 
       return { token };
     } catch (error: unknown) {
-      throw new UnauthorizedException(error);
+      return ServiceErrorValidation.tratament(error);
     }
   }
 
@@ -89,7 +89,7 @@ export class UserService {
 
       return user;
     } catch (error) {
-      ServiceErrorValidation.tratament(error);
+      return ServiceErrorValidation.tratament(error);
     }
   }
 
@@ -118,7 +118,7 @@ export class UserService {
 
       return { user: updatedUser, message: 'Atualizado com sucesso.' };
     } catch (error: unknown) {
-      ServiceErrorValidation.tratament(error);
+      return ServiceErrorValidation.tratament(error);
     }
   }
 
@@ -128,7 +128,7 @@ export class UserService {
 
       return { message: 'Usuário deletado com sucesso.', userId: id };
     } catch (error) {
-      ServiceErrorValidation.tratament(error);
+      return ServiceErrorValidation.tratament(error);
     }
   }
 }
